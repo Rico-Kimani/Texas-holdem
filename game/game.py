@@ -61,3 +61,35 @@ class Game:
     def show_community_cards(self):
         print("\nCommunity Cards:")
         print(", ".join(str(card) for card in self.community_cards))
+
+
+    def get_card_value(self, card):
+         values = {
+             "2": 2, "3": 3, "4": 4, "5": 5,
+             "6": 6, "7": 7, "8": 8, "9": 9,
+             "10": 10, "J": 11, "Q": 12,
+             "K": 13, "A": 14
+    }
+         return values[card.rank]
+    
+
+    def get_best_card(self, player):
+        all_cards = player.hand + self.community_cards
+        return max(all_cards, key=self.get_card_value)
+    
+    def determine_winner(self):
+        print("\n--- Determining Winner ---")
+
+        best_player = None
+        best_card = None
+
+        for player in self.players:
+            player_best = self.get_best_card(player)
+            print(f"{player.name}'s best card: {player_best}")
+
+
+            if best_card is None or self.get_card_value(player_best) > self.get_card_value(best_card):
+                best_card = player_best
+                best_player = player
+
+        print(f"\nWinner: {best_player.name} with {best_card}")
