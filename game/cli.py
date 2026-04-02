@@ -1,14 +1,6 @@
-from game.deck import Deck
-from game.player import Player
+from game.game import Game
 
-deck = Deck()
-deck.shuffle()
+game = Game(["Erick", "Alice"])
 
-player = Player("Erick", 1000)
-
-# Deal 2 cards
-for _ in range(2):
-    player.receive_card(deck.deal())
-
-print(f"{player.name}'s hand:")
-print(player.show_hand())
+game.start()
+game.show_players_hands()
