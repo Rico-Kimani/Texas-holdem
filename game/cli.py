@@ -13,3 +13,5 @@ game.show_community_cards()
 
 game.deal_river()
 game.show_community_cards()
+
+game.determine_winner()
