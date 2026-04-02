@@ -10,10 +10,22 @@ class Game:
         self.pot = 0
         self.stage = "pre-flop"  # game state to track where one is in the game
 
+    def reset_round(self):
+        print("\n--- Reseting the Round ---")
+
+        self.deck = Deck()
+        self.deck.shuffle()
+        self.community_cards = []
+        self.stage ="pre-flop"
+
+        for player in self.players:
+            player.clear_hand()
+
     def start(self):
+        self,self.reset_round()
+
         print("Starting game...")
 
-        self.deck.shuffle()
         self.deal_to_players()
 
     def deal_to_players(self):
@@ -22,6 +34,30 @@ class Game:
                 card = self.deck.deal()
                 player.receive_card(card)
 
+    def deal_flop(self):
+        print("\nDealing Flop...")
+        for _ in range(3):
+            card = self.deck.deal()
+            self.community_cards.append(card)
+        self.stage = "flop"
+
+    def deal_turn(self):
+        print("\nDealing Turn...")
+        card = self.deck.deal()
+        self.community_cards.append(card)
+        self.stage = "turn"
+
+    def deal_river(self):
+         print("\nDealing River...")
+         card = self.deck.deal()
+         self.community_cards.append(card)
+         self.stage = "river"
+
     def show_players_hands(self):
+        print("\nPlayer Hands;")
         for player in self.players:
             print(f"{player.name}: {player.show_hand()}")
+
+    def show_community_cards(self):
+        print("\nCommunity Cards:")
+        print(", ".join(str(card) for card in self.community_cards))
