@@ -77,13 +77,36 @@ class Game:
                 return
 
             print(f"\n{player.name}'s turn (Chips: {player.chips})")
-            action = input("Choose action (bet/check/fold): ").lower()
+
+            while True:
+                action = input("Choose action (bet/check/fold): ").lower.strip()
+
+                if action not in ["bet", "check", "fold"]:
+                    print("❌ Invalid action. Try again.")
+                    continue
+
+                break
 
             if action == "bet":
-                amount = int(input("Enter bet amount: "))
+                while True:
+                    try:
+                        amount = int(input("Enter bet amount: "))
+
+                        if amount <= 0:
+                            print("❌ Bet must be greater than 0.")
+                            continue
+
+                        if amount > player.chips:
+                            print("❌ Not enough Chips.")
+                            continue
+                        break
+                    except ValueError:
+                        print("❌ Enter a valid number.")
+                        
                 bet = player.bet(amount)
                 self.pot += bet
-
+                print(f"{player.name} bets {bet} chips.")
+                
             elif action == "fold":
                 player.fold()
                 print(f"{player.name} folds.")
